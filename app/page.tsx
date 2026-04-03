@@ -44,7 +44,7 @@ const agents = [
 
 export default function Page() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50">
       <Navbar />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -56,7 +56,7 @@ export default function Page() {
               <Sparkles className="h-6 w-6 text-accent" />
             </div>
             <h1 className="text-3xl font-bold tracking-tight">
-              AI Quality Platform
+              AI Agent Marketplace
             </h1>
           </div>
 
@@ -66,11 +66,11 @@ export default function Page() {
         </div>
 
         {/* HERO CARD */}
-        <div className="mb-10 rounded-2xl border bg-gradient-to-r from-accent/20 to-purple-500/10 p-6 shadow-sm">
+        <div className="mb-10 rounded-2xl border border-border bg-white/60 backdrop-blur-xl p-6 shadow-lg bg-gradient-to-r from-blue-100/40 to-cyan-100/40">
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
               <h2 className="text-xl font-semibold">
-                🚀 8D/CAPA Man is Live
+                🚀 Featured Agent: 8D/CAPA Man
               </h2>
               <p className="text-sm text-muted-foreground mt-1">
                 Generate OEM-level 8D reports instantly with AI.
@@ -106,7 +106,7 @@ export default function Page() {
               }
             >
               <AgentCard {...agent} />
-              
+
               {/* Coming Soon Badge */}
               {agent.status === "inactive" && (
                 <div className="flex items-center gap-2 text-xs text-gray-500 mt-2 px-2">

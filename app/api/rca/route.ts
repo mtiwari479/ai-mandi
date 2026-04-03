@@ -40,15 +40,28 @@ STRICT RULES:
 - No extra text
 - Fill all fields logically like real OEM 8D report
 
+IMPORTANT:
+- D5 must contain ONLY permanent corrective actions
+- No containment or temporary fixes
+- Each action must eliminate root cause (WHY5)
+- Provide minimum 3 actions
+- Include responsibility, target_date, validation for each action
+
 STRUCTURE:
 {
   "d1_team": [],
+
   "d2_problem": {
-    "description": "",
-    "where": "",
+    "what": "",
+    "why_problem": "",
     "when": "",
-    "how_many": ""
+    "where": "",
+    "who": "",
+    "how_detected": "",
+    "how_many": "",
+    "description": ""
   },
+
   "d3_containment": {
     "sorting": [],
     "ica_field": [],
@@ -56,6 +69,7 @@ STRUCTURE:
     "ica_detection": [],
     "cutoff": ""
   },
+
   "d4_root_cause": {
     "fishbone": {
       "man": [],
@@ -64,25 +78,59 @@ STRUCTURE:
       "material": []
     },
     "occurrence_why": {
-      "chain": [],
-      "root_cause": ""
-    },
-    "non_detection_why": {
-      "chain": [],
+      "chain": [
+        "WHY1: ...",
+        "WHY2: ...",
+        "WHY3: ...",
+        "WHY4: ...",
+        "WHY5: ..."
+      ],
       "root_cause": ""
     }
   },
+
   "d5_corrective": {
-    "occurrence": [],
-    "detection": []
+    "actions": [
+      {
+        "action": "",
+        "responsibility": "",
+        "target_date": "",
+        "validation": ""
+      }
+    ]
   },
+
   "d6_validation": {
-    "before": "",
-    "after": "",
+    "summary": "",
     "result": "",
-    "cutoff": ""
+    "trend": [
+      { "name": "Week 1", "defect": 0 },
+      { "name": "Week 2", "defect": 0 }
+    ],
+    "comparison": [
+      { "name": "Before", "value": 0 },
+      { "name": "After", "value": 0 }
+    ]
   },
-  "d7_preventive": [],
+
+  "d7_preventive": {
+    "document_updates": {
+      "dfmea": "Yes/No",
+      "drawing": "Yes/No",
+      "standard_tr": "Yes/No",
+      "dvp": "Yes/No",
+      "paa": "Yes/No"
+    },
+    "process_updates": {
+      "pfd": "Yes/No",
+      "pfmea": "Yes/No",
+      "control_plan": "Yes/No",
+      "ppap": "Yes/No",
+      "inspection_checks": "Yes/No",
+      "audit_checks": "Yes/No"
+    }
+  },
+
   "d8_closure": {
     "summary": "",
     "status": "",
@@ -106,7 +154,7 @@ Part: ${part || "Not specified"}`,
 
     const data = await aiResponse.json();
 
-    // ❌ API ERROR HANDLE
+    // API ERROR HANDLE
     if (!aiResponse.ok) {
       const msg = data?.error?.message || "OpenAI API failed";
       console.error("API ERROR:", msg);
@@ -116,7 +164,7 @@ Part: ${part || "Not specified"}`,
       );
     }
 
-    // ✅ CORRECT PARSING (VERY IMPORTANT)
+    // CORRECT PARSING (VERY IMPORTANT)
     const content = data?.output?.[0]?.content?.[0]?.text;
 
     if (!content) {
