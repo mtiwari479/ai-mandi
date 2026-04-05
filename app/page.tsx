@@ -53,6 +53,21 @@ export default function Page() {
   agent.description.toLowerCase().includes(search.toLowerCase()) ||
   agent.category.toLowerCase().includes(search.toLowerCase())
 );
+const highlightText = (text: string, query: string) => {
+  if (!query) return text;
+
+  const parts = text.split(new RegExp(`(${query})`, "gi"));
+
+  return parts.map((part, i) =>
+    part.toLowerCase() === query.toLowerCase() ? (
+      <span key={i} className="bg-yellow-200 text-black rounded px-0.5">
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+};
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50">
       <Navbar search={search} setSearch={setSearch}/>

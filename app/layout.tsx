@@ -27,7 +27,7 @@ export default function RootLayout({
     /* 2. Add suppressHydrationWarning to the html tag */
     /* This prevents a common Next.js error when using light/dark themes */
     <html lang="en" suppressHydrationWarning> 
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased overflow-x-hidden">
         {/* 3. Wrap children with the ThemeProvider */}
         <ThemeProvider
           attribute="class"

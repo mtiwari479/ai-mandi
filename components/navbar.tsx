@@ -15,12 +15,14 @@ const navItems = [
 ]
 
 export function Navbar({
-  search, 
-  setSearch}:
-{search: string;
-setSearch: React.Dispatch<React.SetStateAction<string>>;}) {
+  search,
+  setSearch }:
+  {
+    search: string;
+    setSearch: React.Dispatch<React.SetStateAction<string>>;
+  }) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border bg-white/70 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-white/70 backdrop-blur-xl supports-[backdrop-filter]:bg-white/60">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center gap-2.5">
@@ -57,21 +59,27 @@ setSearch: React.Dispatch<React.SetStateAction<string>>;}) {
         <div className="flex items-center gap-3">
 
           {/* Search */}
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl border bg-muted/40 w-[300px]">
-  <Search className="h-4 w-4 text-muted-foreground" />
+          {/* Desktop Search */}
+          <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full border bg-muted/40 w-[220px] md:w-[280px] focus-within:ring-2 focus-within:ring-accent/40 transition">
+            <Search className="h-4 w-4 text-muted-foreground" />
 
-  <input
-    type="text"
-    placeholder="Search agents..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    className="flex-1 bg-transparent outline-none text-sm"
-  />
+            <input
+              type="text"
+              placeholder="Search agents..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 bg-transparent outline-none text-sm"
+            />
 
-  <span className="text-xs text-muted-foreground border px-2 py-0.5 rounded-md">
-    ⌘K
-  </span>
-</div>
+            <span className="text-xs text-muted-foreground border px-2 py-0.5 rounded-md">
+              ⌘K
+            </span>
+          </div>
+
+          {/* Mobile Search Icon */}
+         <button className="sm:hidden p-2 rounded-md hover:bg-muted transition">
+            <Search className="h-5 w-5 text-muted-foreground" />
+          </button>
 
           {/* Theme Toggle */}
           <ThemeToggle />
