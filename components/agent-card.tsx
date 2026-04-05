@@ -3,14 +3,14 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { 
-  Zap, 
-  Crown, 
-  Bug, 
-  Search, 
-  FileUser, 
-  CalendarCheck, 
-  MessagesSquare 
+import {
+  Zap,
+  Crown,
+  Bug,
+  Search,
+  FileUser,
+  CalendarCheck,
+  MessagesSquare
 } from "lucide-react"
 
 const iconMap = {
@@ -43,11 +43,11 @@ export function AgentCard({
   href,
 }: AgentCardProps) {
   const Icon = iconMap[iconName]
-  
+
   return (
-  
+
     <Card className="group relative overflow-hidden border-border bg-card transition-all duration-300 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5 cursor-pointer">
-      
+
       <CardContent className="p-6">
         <div className="mb-4 flex items-start justify-between">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
@@ -55,9 +55,8 @@ export function AgentCard({
           </div>
 
           {status === "active" && (
-            <Badge className="border-0 bg-accent/20 text-accent">
-              <Zap className="mr-1 h-3 w-3" />
-              Active
+            <Badge className="border-0 bg-green-100 text-green-600">
+              🔥 Live
             </Badge>
           )}
 
@@ -68,9 +67,9 @@ export function AgentCard({
             </Badge>
           )}
 
-          {status === "active" && (
+          {status === "inactive" && (
             <Badge variant="outline" className="border-border text-muted-foreground">
-              Available
+              Coming Soon
             </Badge>
           )}
         </div>
@@ -92,13 +91,13 @@ export function AgentCard({
       </CardContent>
 
       <CardFooter className="flex items-center gap-2 border-t border-border bg-secondary/30 px-6 py-4">
-  
+
         <Link href={href || "#"} className="flex-1">
-        <Button variant="outline" size="sm" className="w-full">
-          Try Now
-        </Button>
+          <Button variant="outline" size="sm" className="w-full">
+            Try Now
+          </Button>
         </Link>
-  
+
         <Button size="sm" className="flex-1 bg-accent text-accent-foreground">
           Buy
         </Button>
@@ -106,5 +105,5 @@ export function AgentCard({
 
     </Card>
 
-)
+  )
 }

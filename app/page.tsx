@@ -6,6 +6,7 @@ import { Sparkles, Clock } from "lucide-react";
 import { Footer } from "@/components/footer";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
+import { is } from "date-fns/locale";
 
 const agents = [
   {
@@ -20,28 +21,16 @@ const agents = [
     highlight: true,
   },
   {
-    name: "Defect AI",
-    description: "Automated defect detection and RCA suggestions.",
-    iconName: "bug" as const,
-    category: "Quality Assurance",
-    usageCount: "Coming Soon",
-    status: "inactive" as const,
-  },
-  {
-    name: "Resume AI",
-    description: "AI-powered resume analysis and matching.",
-    iconName: "fileUser" as const,
-    category: "HR",
-    usageCount: "Coming Soon",
-    status: "inactive" as const,
-  },
-  {
     name: "SwitchBuddy",
-    description: "Career decision support assistant.",
+    description:
+      "AI-powered career switch advisor with salary, growth & risk analysis.",
     iconName: "calendarCheck" as const,
     category: "Career Planning",
-    usageCount: "Coming Soon",
-    status: "inactive" as const,
+    usageCount: "🔥 Live",
+    status: "active" as const,
+    href: "/switchbuddy",
+    highlight: true, // ✅ IMPORTANT
+    isNew: true,
   },
 ];
 
@@ -144,17 +133,9 @@ const highlightText = (text: string, query: string) => {
             >
               <AgentCard {...agent} />
 
-              {/* Coming Soon Badge */}
-              {agent.status === "inactive" && (
-                <div className="flex items-center gap-2 text-xs text-gray-500 mt-2 px-2">
-                  <Clock size={14} />
-                  Coming Soon
-                </div>
-              )}
             </div>
           ))}
         </div>
-
       </main>
       <Footer />
     </div>

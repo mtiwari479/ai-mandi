@@ -72,7 +72,7 @@ export function Navbar({
             />
 
             <span className="text-xs text-muted-foreground border px-2 py-0.5 rounded-md">
-              ⌘K
+              ⌘
             </span>
           </div>
 
