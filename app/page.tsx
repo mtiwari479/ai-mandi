@@ -3,6 +3,9 @@
 import { Navbar } from "@/components/navbar";
 import { AgentCard } from "@/components/agent-card";
 import { Sparkles, Clock } from "lucide-react";
+import { Footer } from "@/components/footer";
+import { ArrowUpRight } from "lucide-react";
+import { useState } from "react";
 
 const agents = [
   {
@@ -43,9 +46,16 @@ const agents = [
 ];
 
 export default function Page() {
+  const [search, setSearch] = useState("");
+  
+  const filteredAgents = agents.filter((agent) =>
+  agent.name.toLowerCase().includes(search.toLowerCase()) ||
+  agent.description.toLowerCase().includes(search.toLowerCase()) ||
+  agent.category.toLowerCase().includes(search.toLowerCase())
+);
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50">
-      <Navbar />
+      <Navbar search={search} setSearch={setSearch}/>
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
@@ -66,24 +76,37 @@ export default function Page() {
         </div>
 
         {/* HERO CARD */}
-        <div className="mb-10 rounded-2xl border border-border bg-white/60 backdrop-blur-xl p-6 shadow-lg bg-gradient-to-r from-blue-100/40 to-cyan-100/40">
-          <div className="flex items-center justify-between flex-wrap gap-4">
+        <div className="mb-10 rounded-2xl border border-border bg-white shadow-sm hover:shadow-md transition p-6 flex items-center justify-between">
+
+          {/* LEFT */}
+          <div className="flex items-start gap-4">
+
+            {/* Icon instead of weak dot */}
+            <div className="relative flex items-center justify-center">
+              <span className="h-2 w-2 rounded-full bg-accent"></span>
+              <span className="absolute h-2 w-2 rounded-full bg-accent animate-ping opacity-75"></span>
+            </div>
+
             <div>
-              <h2 className="text-xl font-semibold">
-                🚀 Featured Agent: 8D/CAPA Man
+              <h2 className="text-lg font-semibold tracking-tight">
+                Featured Agent: <span className="text-accent">8D/CAPA Man</span>
               </h2>
-              <p className="text-sm text-muted-foreground mt-1">
+
+              <p className="text-sm text-muted-foreground mt-1 max-w-md">
                 Generate OEM-level 8D reports instantly with AI.
               </p>
             </div>
 
-            <a
-              href="/rca"
-              className="px-6 py-2 rounded-lg bg-accent text-white font-medium hover:opacity-90 transition"
-            >
-              Launch →
-            </a>
           </div>
+
+          {/* RIGHT BUTTON */}
+          <a
+            href="/rca"
+            className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-accent/30 text-accent text-sm font-medium hover:bg-accent/10 transition"
+          >
+            Launch
+            <ArrowUpRight className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition" />
+          </a>
         </div>
 
         {/* SECTION */}
@@ -96,14 +119,13 @@ export default function Page() {
 
         {/* GRID */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {agents.map((agent) => (
+          {filteredAgents.map((agent) => (
             <div
               key={agent.name}
-              className={
-                agent.highlight
-                  ? "ring-2 ring-accent rounded-xl"
-                  : "opacity-70"
-              }
+              className={`rounded-xl transition ${agent.highlight
+                ? "border border-accent/40 bg-white shadow-sm"
+                : "opacity-80 hover:opacity-100"
+                }`}
             >
               <AgentCard {...agent} />
 
@@ -119,6 +141,7 @@ export default function Page() {
         </div>
 
       </main>
+      <Footer />
     </div>
   );
 }

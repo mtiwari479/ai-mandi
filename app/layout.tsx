@@ -1,25 +1,21 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
-// 1. Import your ThemeProvider (adjust the path if necessary)
-import { ThemeProvider } from "@/components/theme-provider" 
+import { Analytics } from '@vercel/analytics/next' //tracks users(like google analytics)
+import './globals.css' //loads styling (colors, fonts, tailwind) from globals.css
+import { ThemeProvider } from "@/components/theme-provider" //this enable light/dark theme
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
+// this controls the metadata of the app, such as title, description, and icons also sets up the root layout of the app, including the theme provider for light/dark mode and analytics tracking.
 export const metadata: Metadata = {
-  title: 'AI Mandi - AI Agent Marketplace',
-  description: 'Discover and deploy powerful AI agents to automate your workflows',
+  title: 'MyRefrence | AI Agents',
+  description: 'Find the perfect AI agent for your workflow. Browse agents built to automate tasks, save time, and solve real business problems.',
   generator: 'v0.app',
   icons: {
-    icon: [
-      { url: '/icon-light-32x32.png', media: '(prefers-color-scheme: light)' },
-      { url: '/icon-dark-32x32.png', media: '(prefers-color-scheme: dark)' },
-      { url: '/icon.svg', type: 'image/svg+xml' },
-    ],
-    apple: '/apple-icon.png',
-  },
+  icon: '/prism.png',
+  apple: '/prism.png',
+},
 }
 
 export default function RootLayout({
