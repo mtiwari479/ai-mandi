@@ -32,6 +32,18 @@ const agents = [
     highlight: true, // ✅ IMPORTANT
     isNew: true,
   },
+  {
+    name: "Travel Planner",
+    description:
+      "AI-powered multimodal route generator using trains, buses & taxis with real APIs.",
+    iconName: "bug" as const, // choose any lucide icon available
+    category: "Travel & Logistics",
+    usageCount: "🔥 Live",
+    status: "active" as const,
+    href: "/travel-planner",
+    highlight: true,
+    isNew: true,
+  },
 ];
 
 export default function Page() {
