@@ -65,11 +65,6 @@ export function Footer() {
       {/* BOTTOM */}
       <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground gap-4">
         <p>© {new Date().getFullYear()} MyRefrence. All rights reserved.</p>
-
-        <div className="flex gap-6">
-          <Link href="#">Privacy</Link>
-          <Link href="#">Terms</Link>
-        </div>
       </div>
 
       {/* CTA */}
