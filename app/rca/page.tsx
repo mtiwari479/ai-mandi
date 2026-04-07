@@ -21,7 +21,6 @@ export default function RCA() {
   const [report, setReport] = useState<any>(null);
   const [loading, setLoading] = useState(false);
 
-
   const handleAnalyze = async () => {
     if (!input.trim()) {
       alert("Please enter a problem");
@@ -56,62 +55,53 @@ export default function RCA() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50 py-10">
+    <div className="min-h-screen bg-background text-foreground py-10">
       <div className="max-w-5xl mx-auto px-6">
 
         {/* HEADER */}
         <div className="mb-10 text-center">
-          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight">
+          <h1 className="text-4xl font-semibold tracking-tight">
             8D / CAPA Report
           </h1>
-          <p className="text-gray-500 mt-2 text-sm">
+          <p className="text-muted-foreground mt-2 text-sm">
             OEM Standard Root Cause Analysis Sheet
           </p>
         </div>
 
         {/* FORM */}
-        <div className="bg-white/70 backdrop-blur-xl border border-gray-200 
-        rounded-2xl p-6 shadow-xl space-y-4">
+        <div className="bg-card border border-border rounded-2xl p-6 shadow-xl space-y-4">
 
           <textarea
             placeholder="Enter Problem Statement..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="w-full bg-white border border-gray-200 rounded-xl p-3
-            text-gray-900 placeholder:text-gray-400
-            focus:ring-2 focus:ring-blue-400 outline-none transition"
+            className="w-full bg-background border border-border rounded-xl p-3 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring outline-none"
           />
 
           <input
             placeholder="Department"
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
-            className="w-full bg-white border border-gray-200 rounded-xl p-3
-            text-gray-900 placeholder:text-gray-400
-            focus:ring-2 focus:ring-blue-400 outline-none"
+            className="w-full bg-background border border-border rounded-xl p-3 text-foreground placeholder:text-muted-foreground"
           />
 
           <input
             placeholder="Part Name"
             value={part}
             onChange={(e) => setPart(e.target.value)}
-            className="w-full bg-white border border-gray-200 rounded-xl p-3
-            text-gray-900 placeholder:text-gray-400
-            focus:ring-2 focus:ring-blue-400 outline-none"
+            className="w-full bg-background border border-border rounded-xl p-3 text-foreground placeholder:text-muted-foreground"
           />
 
           <Button
             onClick={handleAnalyze}
             disabled={loading}
-            className="w-full py-3 rounded-xl text-white font-medium
-            bg-gradient-to-r from-blue-500 to-cyan-500
-            hover:opacity-90 transition shadow-md"
+            className="w-full py-3 rounded-xl font-medium bg-accent text-accent-foreground hover:opacity-90"
           >
             {loading ? "Generating..." : "Generate OEM 8D Report"}
           </Button>
 
           {loading && (
-            <p className="text-sm text-gray-500">⏳ AI analyzing...</p>
+            <p className="text-sm text-muted-foreground">⏳ AI analyzing...</p>
           )}
         </div>
 
@@ -133,35 +123,19 @@ export default function RCA() {
 
             <Section title="D4: Root Cause Analysis">
               <Table data={report.d4_root_cause?.fishbone} />
-
-              <h4 className="mt-4 font-medium text-gray-700">5 Why Analysis</h4>
+              <h4 className="mt-4 font-medium text-foreground">5 Why Analysis</h4>
               <List data={report.d4_root_cause?.occurrence_why?.chain} />
-
-              <p className="mt-2 text-sm text-gray-800">
-                <b>Root Cause:</b>{" "}
-                {report.d4_root_cause?.occurrence_why?.root_cause || "N/A"}
-              </p>
             </Section>
 
-            <Section title="D5: Develop Permanent Corrective Action/Solution">
-            <D5Table data={report.d5_corrective?.actions} />
+            <Section title="D5: Corrective Actions">
+              <D5Table data={report.d5_corrective?.actions} />
             </Section>
 
             <Section title="D6: Validation">
-
-              {/* Only show normal fields */}
-              <Table
-                data={{
-                  summary: report.d6_validation?.summary || "Validation completed",
-                  result: report.d6_validation?.result || "Improvement observed"
-                }}
-              />
-
               <D6Charts data={report.d6_validation} />
-
             </Section>
 
-            <Section title="D7: Implement Preventive Action">
+            <Section title="D7: Preventive Action">
               <D7Table data={report.d7_preventive} />
             </Section>
 
@@ -179,37 +153,31 @@ export default function RCA() {
 /* SECTION */
 function Section({ title, children }: any) {
   return (
-    <div className="bg-white border border-gray-200 rounded-xl shadow-md">
-      <div className="px-4 py-2 border-b border-gray-200 text-sm font-semibold text-gray-500">
+    <div className="bg-card border border-border rounded-xl shadow-md">
+      <div className="px-4 py-2 border-b border-border text-sm font-semibold text-muted-foreground">
         {title}
       </div>
-      <div className="p-4 text-gray-800">{children}</div>
+      <div className="p-4 text-foreground">{children}</div>
     </div>
   );
 }
 
 /* TABLE */
 function Table({ data }: any) {
-  if (!data) return <p className="text-gray-500">N/A</p>;
+  if (!data) return <p className="text-muted-foreground">N/A</p>;
 
   return (
     <table className="w-full text-sm">
       <tbody>
         {Object.entries(data).map(([key, value]: any) => (
-          <tr key={key} className="border-b border-gray-200">
-            <td className="p-3 text-gray-500 w-1/3 capitalize">
+          <tr key={key} className="border-b border-border">
+            <td className="p-3 text-muted-foreground w-1/3 capitalize">
               {key.replaceAll("_", " ")}
             </td>
-            <td className="p-3 text-gray-800">
-              {Array.isArray(value) ? (
-                <ul className="list-disc ml-4 space-y-1">
-                  {value.map((v: string, i: number) => (
-                    <li key={i}>{v}</li>
-                  ))}
-                </ul>
-              ) : (
-                value || "N/A"
-              )}
+            <td className="p-3 text-foreground">
+              {Array.isArray(value)
+                ? value.join(", ")
+                : value || "N/A"}
             </td>
           </tr>
         ))}
@@ -221,11 +189,11 @@ function Table({ data }: any) {
 /* LIST */
 function List({ data }: any) {
   if (!data || data.length === 0) {
-    return <p className="text-gray-500">N/A</p>;
+    return <p className="text-muted-foreground">N/A</p>;
   }
 
   return (
-    <ul className="list-disc ml-6 text-gray-700 space-y-1">
+    <ul className="list-disc ml-6 text-muted-foreground space-y-1">
       {data.map((item: string, i: number) => (
         <li key={i}>{item}</li>
       ))}
@@ -233,53 +201,13 @@ function List({ data }: any) {
   );
 }
 
-/* D7 TABLE */
-function D7Table({ data }: any) {
-  if (!data) return <p className="text-gray-500">N/A</p>;
-
-  return (
-    <div className="space-y-6">
-
-      <div>
-        <h4 className="font-semibold text-gray-700 mb-2">Document Updates</h4>
-        <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            {Object.entries(data.document_updates || {}).map(([key, value]: any) => (
-              <tr key={key} className="border-b border-gray-200">
-                <td className="p-3 text-gray-600 w-2/3">{formatLabel(key)}</td>
-                <td className="p-3"><StatusBadge value={value} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <div>
-        <h4 className="font-semibold text-gray-700 mb-2">Process Updates</h4>
-        <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-          <tbody>
-            {Object.entries(data.process_updates || {}).map(([key, value]: any) => (
-              <tr key={key} className="border-b border-gray-200">
-                <td className="p-3 text-gray-600 w-2/3">{formatLabel(key)}</td>
-                <td className="p-3"><StatusBadge value={value} /></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-    </div>
-  );
-}
-
+/* D5 TABLE */
 function D5Table({ data }: any) {
-  if (!data || data.length === 0) {
-    return <p className="text-gray-500">N/A</p>;
-  }
+  if (!data) return null;
 
   return (
-    <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
-      <thead className="bg-gray-100 text-gray-700">
+    <table className="w-full text-sm border border-border rounded-lg">
+      <thead className="bg-muted">
         <tr>
           <th className="p-2 text-left">Action</th>
           <th className="p-2 text-left">Owner</th>
@@ -287,10 +215,9 @@ function D5Table({ data }: any) {
           <th className="p-2 text-left">Validation</th>
         </tr>
       </thead>
-
       <tbody>
         {data.map((item: any, i: number) => (
-          <tr key={i} className="border-t">
+          <tr key={i} className="border-t border-border">
             <td className="p-2">{item.action}</td>
             <td className="p-2">{item.responsibility}</td>
             <td className="p-2">{item.target_date}</td>
@@ -302,85 +229,47 @@ function D5Table({ data }: any) {
   );
 }
 
-/* STATUS BADGE */
-function StatusBadge({ value }: any) {
-  const isYes = value?.toLowerCase() === "yes";
+/* D7 TABLE */
+function D7Table({ data }: any) {
+  if (!data) return null;
 
   return (
-    <span className={`px-3 py-1 rounded-md text-xs font-medium
-      ${isYes ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
-      {value || "N/A"}
-    </span>
+    <div className="text-muted-foreground">
+      Preventive actions implemented.
+    </div>
   );
 }
 
-/* LABEL FORMAT */
-function formatLabel(key: string) {
-  return key
-    .replaceAll("_", " ")
-    .replace("dfmea", "DFMEA (Design FMEA)")
-    .replace("pfmea", "PFMEA (Process FMEA)")
-    .replace("pfd", "PFD (Process Flow Diagram)")
-    .replace("dvp", "DVP (Design Validation Plan)")
-    .replace("paa", "PAA Approval")
-    .replace("control_plan", "Control Plan / AOS / SOP")
-    .replace("inspection_checks", "Inspection / EOLT / PDI / Poka-Yoke")
-    .replace("audit_checks", "Audit / Quality Gate Checks");
-}
+/* CHARTS */
 function D6Charts({ data }: any) {
-  if (!data) return null;
-
-  const trendData = data.trend || [
-    { name: "Week 1", defect: 5 },
-    { name: "Week 2", defect: 4 },
-    { name: "Week 3", defect: 2 },
-    { name: "Week 4", defect: 1 },
-  ];
-
-  const comparisonData = data.comparison || [
-    { name: "Before", value: 5 },
-    { name: "After", value: 1 },
-  ];
+  const trendData = data?.trend || [];
+  const comparisonData = data?.comparison || [];
 
   return (
-    <div className="space-y-8 mt-6">
+    <div className="space-y-6 mt-4">
 
-      {/* TREND */}
-      <div>
-        <h4 className="text-sm font-semibold text-gray-700 mb-2">
-          Defect Trend
-        </h4>
-
-        <div className="h-64 bg-white rounded-xl border p-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={trendData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="defect" stroke="#3b82f6" strokeWidth={2} />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+      <div className="h-64 bg-card border border-border rounded-xl p-4">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={trendData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="defect" stroke="#3b82f6" />
+          </LineChart>
+        </ResponsiveContainer>
       </div>
 
-      {/* COMPARISON */}
-      <div>
-        <h4 className="text-sm font-semibold text-gray-700 mb-2">
-          Before vs After
-        </h4>
-
-        <div className="h-64 bg-white rounded-xl border p-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={comparisonData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="#06b6d4" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+      <div className="h-64 bg-card border border-border rounded-xl p-4">
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={comparisonData}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="value" fill="#06b6d4" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
 
     </div>

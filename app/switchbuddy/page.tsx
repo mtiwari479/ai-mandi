@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 
-
 const industries = [
   "Technology", "Finance", "Healthcare", "Manufacturing", "Retail",
   "Education", "Consulting", "Media", "Government", "Startup"
@@ -99,17 +98,17 @@ Respond ONLY in this exact JSON format:
 }`;
 
       const res = await fetch("/api/switchbuddy", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ form }),
-});
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ form }), // Pass 'prompt' if your backend expects it instead
+      });
 
-if (!res.ok) {
-  const errData = await res.json();
-  throw new Error(errData.error || "API error");
-}
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "API error");
+      }
 
-const parsed: Result = await res.json();
+      const parsed: Result = await res.json();
       setResult(parsed);
       setStep(3);
     } catch (e: any) {
@@ -144,9 +143,9 @@ const parsed: Result = await res.json();
   };
 
   const inputClass =
-    "w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-400 bg-white";
+    "w-full border border-gray-200 dark:border-zinc-800 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white dark:bg-zinc-950 text-gray-900 dark:text-zinc-100 transition-colors placeholder:text-gray-400 dark:placeholder:text-zinc-600";
   const labelClass =
-    "block text-xs font-semibold text-gray-500 mb-1 uppercase tracking-wide";
+    "block text-xs font-semibold text-gray-500 dark:text-zinc-400 mb-1 uppercase tracking-wide";
 
   const salaryDelta =
     form.currentSalary && form.offeredSalary
@@ -158,16 +157,16 @@ const parsed: Result = await res.json();
       : null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50 px-4 py-10">
+    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50 dark:bg-none dark:bg-black px-4 py-10 transition-colors duration-300">
       <div className="mx-auto max-w-2xl">
-
+        
         {/* Header */}
-        <div className="mb-8 text-center">
+        <div className="mb-8 text-center pt-8 md:pt-0">
           <div className="inline-flex items-center gap-2 mb-2">
             <span className="text-3xl">🔄</span>
-            <h1 className="text-3xl font-bold text-gray-900">SwitchBuddy</h1>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-zinc-50">SwitchBuddy</h1>
           </div>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 dark:text-zinc-400 text-sm">
             AI-powered career switch advisor — Should you join or not?
           </p>
 
@@ -178,8 +177,8 @@ const parsed: Result = await res.json();
                 <div
                   className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
                     step >= s
-                      ? "bg-teal-500 text-white"
-                      : "bg-gray-200 text-gray-400"
+                      ? "bg-teal-500 text-white shadow-[0_0_10px_rgba(20,184,166,0.3)]"
+                      : "bg-gray-200 dark:bg-zinc-800 text-gray-400 dark:text-zinc-500"
                   }`}
                 >
                   {step > s ? "✓" : s}
@@ -187,7 +186,7 @@ const parsed: Result = await res.json();
                 {s < 3 && (
                   <div
                     className={`w-10 h-0.5 transition-all ${
-                      step > s ? "bg-teal-500" : "bg-gray-200"
+                      step > s ? "bg-teal-500" : "bg-gray-200 dark:bg-zinc-800"
                     }`}
                   />
                 )}
@@ -195,16 +194,16 @@ const parsed: Result = await res.json();
             ))}
           </div>
           <div className="flex justify-center gap-12 mt-1.5">
-            <span className="text-xs text-gray-400">Current Job</span>
-            <span className="text-xs text-gray-400">New Offer</span>
-            <span className="text-xs text-gray-400">Result</span>
+            <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">Current Job</span>
+            <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">New Offer</span>
+            <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">Result</span>
           </div>
         </div>
 
         {/* ── STEP 1 ── */}
         {step === 1 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-base font-semibold text-gray-800 mb-5">
+          <div className="bg-white dark:bg-[#111111] rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 p-6 transition-colors duration-300">
+            <h2 className="text-base font-semibold text-gray-800 dark:text-zinc-100 mb-5 flex items-center gap-2">
               📋 Your Current Situation
             </h2>
             <div className="grid grid-cols-2 gap-4">
@@ -224,9 +223,9 @@ const parsed: Result = await res.json();
                   value={form.industry}
                   onChange={(e) => update("industry", e.target.value)}
                 >
-                  <option value="">Select industry</option>
+                  <option value="" className="dark:bg-zinc-900">Select industry</option>
                   {industries.map((i) => (
-                    <option key={i}>{i}</option>
+                    <option key={i} className="dark:bg-zinc-900">{i}</option>
                   ))}
                 </select>
               </div>
@@ -237,9 +236,9 @@ const parsed: Result = await res.json();
                   value={form.department}
                   onChange={(e) => update("department", e.target.value)}
                 >
-                  <option value="">Select department</option>
+                  <option value="" className="dark:bg-zinc-900">Select department</option>
                   {departments.map((d) => (
-                    <option key={d}>{d}</option>
+                    <option key={d} className="dark:bg-zinc-900">{d}</option>
                   ))}
                 </select>
               </div>
@@ -294,7 +293,7 @@ const parsed: Result = await res.json();
                 !form.designation ||
                 !form.currentSalary
               }
-              className="mt-6 w-full py-3 rounded-xl bg-teal-500 text-white font-semibold text-sm hover:bg-teal-600 transition disabled:opacity-40 disabled:cursor-not-allowed"
+              className="mt-6 w-full py-3 rounded-xl bg-teal-500 text-white font-semibold text-sm hover:bg-teal-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
             >
               Next → Enter Offer Details
             </button>
@@ -303,8 +302,8 @@ const parsed: Result = await res.json();
 
         {/* ── STEP 2 ── */}
         {step === 2 && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-            <h2 className="text-base font-semibold text-gray-800 mb-5">
+          <div className="bg-white dark:bg-[#111111] rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 p-6 transition-colors duration-300">
+            <h2 className="text-base font-semibold text-gray-800 dark:text-zinc-100 mb-5 flex items-center gap-2">
               🏢 The New Offer
             </h2>
             <div className="grid grid-cols-2 gap-4">
@@ -341,22 +340,24 @@ const parsed: Result = await res.json();
 
             {/* Live salary delta */}
             {salaryDelta !== null && (
-              <div className="mt-4 p-3 rounded-xl bg-gray-50 border border-gray-100 text-sm text-center">
+              <div className="mt-4 p-3 rounded-xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 text-sm text-center dark:text-zinc-300 transition-colors">
                 Salary change:{" "}
                 <span
                   className={`font-bold ${
-                    parseFloat(salaryDelta) >= 0 ? "text-green-600" : "text-red-500"
+                    parseFloat(salaryDelta) >= 0 ? "text-green-600 dark:text-emerald-400" : "text-red-500 dark:text-rose-400"
                   }`}
                 >
                   {parseFloat(salaryDelta) >= 0 ? "+" : ""}
                   {salaryDelta}%
                 </span>{" "}
-                &nbsp;(₹{form.currentSalary} → ₹{form.offeredSalary} LPA)
+                <span className="text-gray-400 dark:text-zinc-500">
+                  (₹{form.currentSalary} → ₹{form.offeredSalary} LPA)
+                </span>
               </div>
             )}
 
             {error && (
-              <div className="mt-4 p-3 rounded-xl bg-red-50 border border-red-100 text-sm text-red-600 text-center">
+              <div className="mt-4 p-3 rounded-xl bg-red-50 dark:bg-rose-950/30 border border-red-100 dark:border-rose-900/50 text-sm text-red-600 dark:text-rose-400 text-center">
                 ⚠️ {error}
               </div>
             )}
@@ -364,14 +365,14 @@ const parsed: Result = await res.json();
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setStep(1)}
-                className="flex-1 py-3 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 transition"
+                className="flex-1 py-3 rounded-xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-300 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-zinc-800 transition"
               >
                 ← Back
               </button>
               <button
                 onClick={analyze}
                 disabled={!form.companyName || !form.offeredSalary || loading}
-                className="flex-1 py-3 rounded-xl bg-teal-500 text-white font-semibold text-sm hover:bg-teal-600 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                className="flex-1 py-3 rounded-xl bg-teal-500 text-white font-semibold text-sm hover:bg-teal-400 transition disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -388,7 +389,7 @@ const parsed: Result = await res.json();
             </div>
 
             {loading && (
-              <p className="mt-4 text-center text-xs text-gray-400 animate-pulse">
+              <p className="mt-4 text-center text-xs text-gray-400 dark:text-zinc-500 animate-pulse">
                 🔍 Researching {form.companyName}, salary benchmarks, HR policies...
               </p>
             )}
@@ -400,8 +401,8 @@ const parsed: Result = await res.json();
           <div className="space-y-4">
 
             {/* Score card */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 text-center">
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">
+            <div className="bg-white dark:bg-[#111111] rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 p-6 text-center transition-colors duration-300">
+              <p className="text-xs font-semibold text-gray-400 dark:text-zinc-500 uppercase tracking-widest mb-1">
                 SwitchBuddy Score
               </p>
               <div
@@ -409,22 +410,22 @@ const parsed: Result = await res.json();
                 style={{ color: scoreColor(result.score) }}
               >
                 {result.score}
-                <span className="text-2xl text-gray-300">/100</span>
+                <span className="text-2xl text-gray-300 dark:text-zinc-700">/100</span>
               </div>
 
               <div
-                className="inline-block px-8 py-2 rounded-full text-white font-bold text-lg mb-4"
+                className="inline-block px-8 py-2 rounded-full text-white font-bold text-lg mb-4 shadow-lg"
                 style={{ backgroundColor: scoreColor(result.score) }}
               >
                 {result.verdict === "JOIN" ? "✅ JOIN" : "❌ DON'T JOIN"}
               </div>
 
-              <p className="text-sm text-gray-600 leading-relaxed max-w-md mx-auto">
+              <p className="text-sm text-gray-600 dark:text-zinc-300 leading-relaxed max-w-md mx-auto">
                 {result.summary}
               </p>
 
               {/* Score bar */}
-              <div className="mt-5 w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+              <div className="mt-5 w-full h-2.5 bg-gray-100 dark:bg-zinc-800 rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full"
                   style={{
@@ -434,7 +435,7 @@ const parsed: Result = await res.json();
                   }}
                 />
               </div>
-              <div className="flex justify-between text-xs text-gray-300 mt-1">
+              <div className="flex justify-between text-xs text-gray-300 dark:text-zinc-600 mt-1 font-medium">
                 <span>0</span>
                 <span>50</span>
                 <span>100</span>
@@ -451,28 +452,30 @@ const parsed: Result = await res.json();
             ].map(({ icon, title, content }) => (
               <div
                 key={title}
-                className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5"
+                className="bg-white dark:bg-[#111111] rounded-2xl shadow-sm border border-gray-100 dark:border-zinc-800 p-5 transition-colors duration-300"
               >
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">
-                  {icon} {title}
+                <h3 className="text-sm font-semibold text-gray-800 dark:text-zinc-100 mb-2 flex items-center gap-1.5">
+                  <span className="text-base">{icon}</span> {title}
                 </h3>
-                <p className="text-sm text-gray-600 leading-relaxed">{content}</p>
+                <p className="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed">{content}</p>
               </div>
             ))}
 
             {/* Final advice */}
             <div
-              className="rounded-2xl p-5 text-white"
+              className="rounded-2xl p-5 text-white shadow-md"
               style={{ backgroundColor: scoreColor(result.score) }}
             >
-              <h3 className="font-semibold mb-2 text-sm">🎯 Final Advice</h3>
+              <h3 className="font-semibold mb-2 text-sm flex items-center gap-1.5">
+                <span className="text-lg">🎯</span> Final Advice
+              </h3>
               <p className="text-sm leading-relaxed opacity-90">{result.finalAdvice}</p>
             </div>
 
             {/* Reset */}
             <button
               onClick={resetForm}
-              className="w-full py-3 rounded-xl border border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 transition"
+              className="w-full py-3 rounded-xl border border-gray-200 dark:border-zinc-700 text-gray-600 dark:text-zinc-300 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-zinc-800 transition"
             >
               🔄 Analyze Another Company
             </button>
