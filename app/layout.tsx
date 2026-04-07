@@ -26,20 +26,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geist.className} ${geistMono.className} antialiased overflow-x-hidden`}>
+      <body
+        className={`${geist.className} ${geistMono.className} antialiased overflow-x-hidden bg-white dark:bg-black text-black dark:text-white`}
+      >
         <Script
           id="google-maps-places"
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}&libraries=places&loading=async`}
           strategy="afterInteractive"
         />
+
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="dark"   // ✅ FORCE DARK
+          enableSystem={false}  // ✅ DISABLE SYSTEM SWITCH
           disableTransitionOnChange
         >
           {children}
         </ThemeProvider>
+
         <Analytics />
       </body>
     </html>

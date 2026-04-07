@@ -2,11 +2,9 @@
 
 import { Navbar } from "@/components/navbar";
 import { AgentCard } from "@/components/agent-card";
-import { Sparkles, Clock } from "lucide-react";
+import { Sparkles, ArrowUpRight } from "lucide-react";
 import { Footer } from "@/components/footer";
-import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
-import { is } from "date-fns/locale";
 
 const agents = [
   {
@@ -29,14 +27,14 @@ const agents = [
     usageCount: "🔥 Live",
     status: "active" as const,
     href: "/switchbuddy",
-    highlight: true, // ✅ IMPORTANT
+    highlight: true,
     isNew: true,
   },
   {
     name: "Travel Planner",
     description:
       "AI-powered multimodal route generator using trains, buses & taxis with real APIs.",
-    iconName: "bug" as const, // choose any lucide icon available
+    iconName: "bug" as const,
     category: "Travel & Logistics",
     usageCount: "🔥 Live",
     status: "active" as const,
@@ -48,39 +46,26 @@ const agents = [
 
 export default function Page() {
   const [search, setSearch] = useState("");
-  
+
   const filteredAgents = agents.filter((agent) =>
-  agent.name.toLowerCase().includes(search.toLowerCase()) ||
-  agent.description.toLowerCase().includes(search.toLowerCase()) ||
-  agent.category.toLowerCase().includes(search.toLowerCase())
-);
-const highlightText = (text: string, query: string) => {
-  if (!query) return text;
-
-  const parts = text.split(new RegExp(`(${query})`, "gi"));
-
-  return parts.map((part, i) =>
-    part.toLowerCase() === query.toLowerCase() ? (
-      <span key={i} className="bg-yellow-200 text-black rounded px-0.5">
-        {part}
-      </span>
-    ) : (
-      part
-    )
+    agent.name.toLowerCase().includes(search.toLowerCase()) ||
+    agent.description.toLowerCase().includes(search.toLowerCase()) ||
+    agent.category.toLowerCase().includes(search.toLowerCase())
   );
-};
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white via-blue-50 to-cyan-50">
-      <Navbar search={search} setSearch={setSearch}/>
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar search={search} setSearch={setSearch} />
 
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
 
         {/* HEADER */}
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent/20">
-              <Sparkles className="h-6 w-6 text-accent" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-muted">
+              <Sparkles className="h-6 w-6 text-foreground" />
             </div>
+
             <h1 className="text-3xl font-bold tracking-tight">
               AI Agent Marketplace
             </h1>
@@ -92,42 +77,42 @@ const highlightText = (text: string, query: string) => {
         </div>
 
         {/* HERO CARD */}
-        <div className="mb-10 rounded-2xl border border-border bg-white shadow-sm hover:shadow-md transition p-6 flex items-center justify-between">
+        <div className="mb-10 rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition p-6 flex items-center justify-between">
 
           {/* LEFT */}
           <div className="flex items-start gap-4">
-
-            {/* Icon instead of weak dot */}
             <div className="relative flex items-center justify-center">
-              <span className="h-2 w-2 rounded-full bg-accent"></span>
-              <span className="absolute h-2 w-2 rounded-full bg-accent animate-ping opacity-75"></span>
+              <span className="h-2 w-2 rounded-full bg-green-500"></span>
+              <span className="absolute h-2 w-2 rounded-full bg-green-500 animate-ping opacity-75"></span>
             </div>
 
             <div>
               <h2 className="text-lg font-semibold tracking-tight">
-                Featured Agent: <span className="text-accent">8D/CAPA Man</span>
+                Featured Agent: <span className="text-green-500">8D/CAPA Man</span>
               </h2>
 
               <p className="text-sm text-muted-foreground mt-1 max-w-md">
                 Generate OEM-level 8D reports instantly with AI.
               </p>
             </div>
-
           </div>
 
           {/* RIGHT BUTTON */}
           <a
             href="/rca"
-            className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-accent/30 text-accent text-sm font-medium hover:bg-accent/10 transition"
+            className="group inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-green-500/30 text-green-500 text-sm font-medium hover:bg-green-500/10 transition"
           >
             Launch
-            <ArrowUpRight className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition" />
+            <ArrowUpRight className="h-4 w-4 transition group-hover:translate-x-1 group-hover:-translate-y-1" />
           </a>
         </div>
 
         {/* SECTION */}
         <div className="mb-6">
-          <h2 className="text-xl font-semibold">Available Agents</h2>
+          <h2 className="text-xl font-semibold">
+            Available Agents
+          </h2>
+
           <p className="text-sm text-muted-foreground">
             Currently available and upcoming tools
           </p>
@@ -138,17 +123,19 @@ const highlightText = (text: string, query: string) => {
           {filteredAgents.map((agent) => (
             <div
               key={agent.name}
-              className={`rounded-xl transition ${agent.highlight
-                ? "border border-accent/40 bg-white shadow-sm"
-                : "opacity-80 hover:opacity-100"
-                }`}
+              className={`rounded-xl transition ${
+                agent.highlight
+                  ? "border border-border bg-card shadow-sm"
+                  : "opacity-80 hover:opacity-100"
+              }`}
             >
               <AgentCard {...agent} />
-
             </div>
           ))}
         </div>
+
       </main>
+
       <Footer />
     </div>
   );

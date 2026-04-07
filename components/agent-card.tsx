@@ -1,17 +1,17 @@
-"use client"
+"use client";
+
 import Link from "next/link";
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
-  Zap,
   Crown,
   Bug,
   Search,
   FileUser,
   CalendarCheck,
-  MessagesSquare
-} from "lucide-react"
+  MessagesSquare,
+} from "lucide-react";
 
 const iconMap = {
   bug: Bug,
@@ -19,18 +19,18 @@ const iconMap = {
   fileUser: FileUser,
   calendarCheck: CalendarCheck,
   messagesSquare: MessagesSquare,
-} as const
+} as const;
 
-type IconName = keyof typeof iconMap
+type IconName = keyof typeof iconMap;
 
 interface AgentCardProps {
-  name: string
-  description: string
-  iconName: IconName
-  category: string
-  usageCount?: string
+  name: string;
+  description: string;
+  iconName: IconName;
+  category: string;
+  usageCount?: string;
   href?: string;
-  status: "active" | "inactive" | "premium"
+  status: "active" | "inactive" | "premium";
 }
 
 export function AgentCard({
@@ -42,20 +42,22 @@ export function AgentCard({
   status,
   href,
 }: AgentCardProps) {
-  const Icon = iconMap[iconName]
+  const Icon = iconMap[iconName];
 
   return (
-
-    <Card className="group relative overflow-hidden border-border bg-card transition-all duration-300 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/5 cursor-pointer">
+    <Card className="group relative overflow-hidden border border-border bg-card text-card-foreground transition-all duration-300 hover:border-accent/50 hover:shadow-lg hover:shadow-accent/10 cursor-pointer">
 
       <CardContent className="p-6">
         <div className="mb-4 flex items-start justify-between">
+
+          {/* ICON */}
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10 text-accent">
             <Icon className="h-6 w-6" />
           </div>
 
+          {/* STATUS BADGES */}
           {status === "active" && (
-            <Badge className="border-0 bg-green-100 text-green-600">
+            <Badge className="border-0 bg-green-500/10 text-green-500">
               🔥 Live
             </Badge>
           )}
@@ -74,23 +76,32 @@ export function AgentCard({
           )}
         </div>
 
-        <h3 className="mb-2 text-lg font-semibold text-card-foreground">{name}</h3>
-        <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">{description}</p>
+        {/* TITLE */}
+        <h3 className="mb-2 text-lg font-semibold">
+          {name}
+        </h3>
 
+        {/* DESCRIPTION */}
+        <p className="mb-4 text-sm leading-relaxed text-muted-foreground line-clamp-2">
+          {description}
+        </p>
+
+        {/* TAGS */}
         <div className="flex items-center gap-2">
-          <span className="inline-flex items-center rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground">
+          <span className="inline-flex items-center rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
             {category}
           </span>
 
           {usageCount && (
-            <span className="inline-flex items-center rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-muted-foreground">
+            <span className="inline-flex items-center rounded-md bg-secondary px-2.5 py-1 text-xs font-medium text-secondary-foreground">
               {usageCount}
             </span>
           )}
         </div>
       </CardContent>
 
-      <CardFooter className="flex items-center gap-2 border-t border-border bg-secondary/30 px-6 py-4">
+      {/* FOOTER */}
+      <CardFooter className="flex items-center gap-2 border-t border-border bg-muted/30 px-6 py-4">
 
         <Link href={href || "#"} className="flex-1">
           <Button variant="outline" size="sm" className="w-full">
@@ -98,12 +109,11 @@ export function AgentCard({
           </Button>
         </Link>
 
-        <Button size="sm" className="flex-1 bg-accent text-accent-foreground">
+        <Button size="sm" className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90">
           Buy
         </Button>
+
       </CardFooter>
-
     </Card>
-
-  )
+  );
 }
